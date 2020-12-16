@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { useState, useEffect } from "react";
 import TaskCard from "./components/Task";
 import "./App.css";
@@ -9,6 +10,7 @@ const App = () => {
 
   useEffect(() => {
     getTasks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localStorage, add]);
 
   const getTasks = () => {
