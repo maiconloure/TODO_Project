@@ -1,21 +1,75 @@
+import React, { useState, useEffect } from "react";
+import TaskCard from "./components/Task";
 import "./App.css";
-import { FaTrashAlt } from "react-icons/fa";
-import { useState } from "react";
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
-  const [add, setAdd] = useState(true);
-  const [title, setTitle] = useState("Insira o título da tarefa");
+  const [add, setAdd] = useState(false);
+  const [title, setTitle] = useState("");
 
-  console.log(Object.entries(localStorage));
-  const deleteTask = (title) => {
-    if (window.removeItem(`${title}`)) {
-      console.log("excluido!");
+  useEffect(() => {
+    getTasks();
+  }, [localStorage, add]);
+
+  const getTasks = () => {
+    let allTasks = [];
+    for (let task of Object.entries(localStorage)) {
+      allTasks.push(JSON.parse(task[1]));
+    }
+    if (allTasks.length > 0) {
+      setTasks(allTasks);
+    }
+  };
+
+  const deleteTask = (id, title) => {
+    if (window.confirm(`Tem certeza que deseja remover a tarefa ${title}`)) {
+      localStorage.removeItem(`${id}`);
+      getTasks();
+    }
+  };
+
+  const clearTasks = () => {
+    if (
+      window.confirm(
+        "Tem certeza que deseja remover todas as tarefas finalizadas?"
+      )
+    ) {
+      for (let task of Object.entries(localStorage)) {
+        let taskJSON = JSON.parse(task[1]);
+        console.log(taskJSON);
+        if (taskJSON.checked) {
+          localStorage.removeItem(task[0]);
+        }
+      }
+      getTasks();
+    }
+  };
+
+  const checkItem = (id, check, title) => {
+    if (check.target.checked) {
+      localStorage.setItem(
+        `${id}`,
+        `{ "id": ${id}, "title": "${title}", "checked": true }`
+      );
+      getTasks();
+    } else {
+      localStorage.setItem(
+        `${id}`,
+        `{ "id": ${id}, "title": "${title}", "checked": false }`
+      );
+      getTasks();
     }
   };
 
   const addTask = (title) => {
-    localStorage.setItem(`${title}`, title);
+    let nextId = 1;
+    if (tasks.length > 0) {
+      nextId = tasks.length + 1;
+    }
+    localStorage.setItem(
+      `${nextId}`,
+      `{ "id": ${nextId}, "title": "${title}", "checked": false }`
+    );
     setAdd(false);
   };
 
@@ -37,24 +91,42 @@ const App = () => {
             </button>
           </div>
           <div className="tasks-block">
-            <div className="task-card">
-              <input className="check-box" type="checkbox" />
-              <h3>Desafio Esparta</h3>
-              <FaTrashAlt className="trash-icon" onClick={() => deleteTask()} />
-            </div>
+            {tasks.map((task, index) => {
+              if (!task.checked) {
+                return (
+                  <TaskCard
+                    id={task.id}
+                    title={task.title}
+                    checked={task.checked}
+                    checkItem={checkItem}
+                    deleteTask={deleteTask}
+                    key={index}
+                  />
+                );
+              }
+            })}
           </div>
         </div>
         <div className="done-container">
           <div className="title-block">
             <h2>Finalizadas</h2>
-            <button>Limpar</button>
+            <button onClick={() => clearTasks()}>Limpar</button>
           </div>
           <div className="tasks-block">
-            <div className="task-card">
-              <input className="check-box" type="checkbox" />
-              <h3>Desafio Esparta</h3>
-              <FaTrashAlt className="trash-icon" />
-            </div>
+            {tasks.map((task, index) => {
+              if (task.checked) {
+                return (
+                  <TaskCard
+                    id={task.id}
+                    title={task.title}
+                    checked={task.checked}
+                    checkItem={checkItem}
+                    deleteTask={deleteTask}
+                    key={index}
+                  />
+                );
+              }
+            })}
           </div>
         </div>
       </div>
@@ -62,10 +134,18 @@ const App = () => {
       {add && (
         <div className="task-modal">
           <h3>Adicionar Tarefa</h3>
-          <input type="text" value={title} />
+          <input
+            type="text"
+            value={title}
+            onChange={(evt) => setTitle(evt.target.value)}
+            placeholder="Insira o título da tarefa"
+          />
           <button onClick={() => addTask(title)}>Adicionar</button>
         </div>
       )}
+      <footer>
+        <p> Made by Maicon Lourenço</p>
+      </footer>
     </div>
   );
 };
