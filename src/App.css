@@ -1,38 +1,157 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
+  position: relative;
   background-color: #282c34;
-  min-height: 100vh;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  min-height: 100vh;
+}
+
+.App-header {
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App-header h1 {
+  font: 800 3rem Inter;
+  text-shadow: 2px 2px 4px #000;
+  margin: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.list-book {
+  /* width: 500px; */
+  height: 800px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 6px;
+  /* padding: 12px 16px; */
+  /* justify-content: center; */
+}
+
+.tasks-container {
+  background: #DC143C;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 6px 6px 0 0;
+}
+
+.done-container {
+  background: #d2691e;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0 0 6px 6px;
+
+}
+
+.title-block {
+  width: 500px;
+  height: 25px;
+  padding: 5px 10px;
+  background: #fff;
+  margin: 10px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title-block button {
+  background: #483D8B;
+  color: #fff;
+  font: 600 1.1rem Inter;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.title-block button:hover {
+  background: #483D8B;
+}
+
+.tasks-block {
+  width: 500px;
+  height: 320px;
+  padding: 5px 10px;
+  background: #fff;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.title-block h2 {
+  font: 800 1.5rem Inter;
+  margin: 0;
+}
+
+.task-card {
+  width: 96%;
+  height: 40px;
+  background: #191970;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  padding: 5px 10px;
+  margin: 6px;
+}
+.task-card h3 {
+  margin: 0;
+  font: 600 1.4rem Inter;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+}
+
+.check-box {
+  width: 30px;
+  height: 30px;
+}
+
+.trash-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.task-modal {
+  position: absolute;
+  z-index: 99999;
+  top: 50%;
+  width: 600px;
+  height: 400px;
+  background: #4169E1;
+  border-radius: 6px;
+  margin-left: auto;
+  margin-right: auto;
+  top: 300px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+}
+
+.task-modal input {
+  width: 300px;
+  height: 30px;
+}
+
+.task-modal button {
+  width: 300px;
+  height: 30px;
 }
